@@ -54,8 +54,26 @@ UKF::UKF() {
 
   Hint: one or more values initialized above might be wildly off...
   */
+  time_us_ = 0;
+  is_initialized_ = false;
+   ///* State dimension
+  n_x_ = 5;
+
+  ///* Augmented state dimension
+  n_aug_ = 7;
+
+  ///* predicted sigma points matrix
+  Xsig_pred_ = MatrixXd(n_x_, 2 * n_aug_ + 1);
+  ///* Weights of sigma points
+  weights_ = VectorXd(2*n_aug_+1);
+ 
+  ///* Sigma point spreading parameter
+  lambda_ = 3 - n_aug_;
 }
 
+/**
+* Destructor.
+*/
 UKF::~UKF() {}
 
 /**
@@ -69,6 +87,63 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   Complete this function! Make sure you switch between lidar and radar
   measurements.
   */
+  if (!is_initialized_)
+  {
+    //first measurement
+    x_ << 0, 0, 0, 0, 0;
+
+    // covariance matrix
+    P_ << 1, 0, 0, 0, 0,
+          0, 1, 0, 0, 0,
+          0, 0, 10,0, 0,
+          0, 0, 0,10, 0,
+          0, 0, 0, 0,10;
+
+    //Initialize state with first measurements
+    if (meas_package.sensor_type_ == MeasurementPackage::RADAR)
+    {
+      // Retreive raw values
+      float rho = meas_package.raw_measurements_(0);
+      float theta = meas_package.raw_measurements_(1);
+      float ro_dot = meas_package.raw_measurements_(2);
+      // conversion from polar to cartesian coordinate system
+      x_[0] = rho * cos(theta);
+      x_[1] = rho * sin(theta);
+      x_[2] = ro_dot;
+    }
+    else if (meas_package.sensor_type_ == MeasurementPackage::LASER)
+    {
+      // map raw values directly, already cartesian
+      x_[0] = meas_package.raw_measurements_(0); //px
+      x_[1] = meas_package.raw_measurements_(1); //py
+    }
+
+    //compute the time elapsed between current and previous measurements
+    float delta_t = (meas_package.timestamp_ - time_us_)/ 1000000.0;
+    time_us_ = meas_package.timestamp_;
+
+    is_initialized_ = true;
+    return;
+
+  }
+  
+  //compute the time elapsed between current and previous measurements
+  float delta_t = (meas_package.timestamp_ - time_us_)/ 1000000.0;
+  
+  //Predict
+  Prediction(delta_t);
+  //check sensor type for update
+  if (meas_package.sensor_type_ == MeasurementPackage::RADAR and use_radar_)
+  {
+    UpdateRadar(meas_package);
+  }
+  if (meas_package.sensor_type_ == MeasurementPackage::LASER and use_laser_)
+  {
+    UpdateLidar(meas_package);
+  }
+  // update last timestep with current time
+  time_us_ = meas_package.timestamp_;
+  
 }
 
 /**
@@ -83,6 +158,8 @@ void UKF::Prediction(double delta_t) {
   Complete this function! Estimate the object's location. Modify the state
   vector, x_. Predict sigma points, the state, and the state covariance matrix.
   */
+
+
 }
 
 /**
