@@ -1,8 +1,19 @@
+# Unscented Kalman Filter Project
+
+[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+
+Self-Driving Car Engineer Nanodegree Program
+
+Overview
+
+---
+
+[//]: # (Image References)
 
 PROJECT DESCRIPTION
-The project "unscented Kalman filter" is based on the same structure as the extended Kalman filter.
-It uses a main file that calls a function called ProcessMeasurement. Anything important happens in this function. The function is part of the class ukf.
+The project is an implementation of an Unscented Kalman Filter(UKF) using the CTRV motion model to esitmate the state of a moving object of interest. For the purpose of the project we use Radar and Lidar data detecting a bicyclist nearby. UKF is based on a similar structure to the extended Kalman filter(EKF).
 
+The main file calls a function called ProcessMeasurement, part of the class ukf. This function processes the new Laser or Radar measurements. Once the measurements are processed they are compared against the ground truth value. Testing is achieved using Udacity's simulator which communicates over WebSockets in a JSON format.
 
 C++ QUIZZES
 The quizzes including the solutions of them are included in the file ukf.cpp. They are individual functions, which don't need any special environment. The solution of the quizzes are given here and also the expected results.
