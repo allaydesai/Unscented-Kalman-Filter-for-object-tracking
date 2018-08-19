@@ -15,6 +15,13 @@ The project is an implementation of an Unscented Kalman Filter(UKF) using the CT
 
 The main file calls a function called ProcessMeasurement, part of the class ukf. This function processes the new Laser or Radar measurements. Once the measurements are processed they are compared against the ground truth value. Testing is achieved using Udacity's simulator which communicates over WebSockets in a JSON format.
 
+**Project Goals**
+
+The goals / steps of this project are the following:
+* Build an Unscented Kalman Filter (UKF) for tracking using Lidar and radar measurments
+* Test algorithm against Dataset-1 in the simulator
+* Output coordinates px, py, vx, and vy RMSE should be less than or equal to the values  [.09, .10, .40, .30]
+
 C++ QUIZZES
 The quizzes including the solutions of them are included in the file ukf.cpp. They are individual functions, which don't need any special environment. The solution of the quizzes are given here and also the expected results.
 The quizzes can easily evaluated: if every value of the student solution (vectors and matrices) differs less than 0.001 from the original solution, the quizz is passed, otherwise failed.
