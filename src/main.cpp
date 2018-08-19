@@ -28,6 +28,14 @@ std::string hasData(std::string s) {
 
 int main()
 {
+  
+  //Open file to write output
+  ofstream file_write("output.txt");
+
+  if (!file_write.is_open()) {
+    cout<<"Could not open file"<<endl;
+    exit(EXIT_FAILURE);
+  }
   uWS::Hub h;
 
   // Create a Kalman Filter instance
@@ -38,7 +46,7 @@ int main()
   vector<VectorXd> estimations;
   vector<VectorXd> ground_truth;
 
-  h.onMessage([&ukf,&tools,&estimations,&ground_truth](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
+  h.onMessage([&ukf,&tools,&estimations,&ground_truth, &file_write](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
@@ -90,15 +98,22 @@ int main()
           		iss >> timestamp;
           		meas_package.timestamp_ = timestamp;
           }
-          float x_gt;
+        float x_gt;
     	  float y_gt;
+        float v_gt;
     	  float vx_gt;
     	  float vy_gt;
+        float yaw_gt;
+        float yawd_gt;
     	  iss >> x_gt;
     	  iss >> y_gt;
     	  iss >> vx_gt;
     	  iss >> vy_gt;
-    	  VectorXd gt_values(4);
+        iss >> yaw_gt;
+        iss >> yawd_gt;
+        v_gt =vx_gt/cos(yaw_gt);
+
+        VectorXd gt_values(4);
     	  gt_values(0) = x_gt;
     	  gt_values(1) = y_gt; 
     	  gt_values(2) = vx_gt;
@@ -116,6 +131,7 @@ int main()
     	  double p_y = ukf.x_(1);
     	  double v  = ukf.x_(2);
     	  double yaw = ukf.x_(3);
+        double yawd = ukf.x_(4);
 
     	  double v1 = cos(yaw)*v;
     	  double v2 = sin(yaw)*v;
@@ -129,16 +145,48 @@ int main()
 
     	  VectorXd RMSE = tools.CalculateRMSE(estimations, ground_truth);
 
-          json msgJson;
-          msgJson["estimate_x"] = p_x;
-          msgJson["estimate_y"] = p_y;
-          msgJson["rmse_x"] =  RMSE(0);
-          msgJson["rmse_y"] =  RMSE(1);
-          msgJson["rmse_vx"] = RMSE(2);
-          msgJson["rmse_vy"] = RMSE(3);
-          auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
-          // std::cout << msg << std::endl;
-          ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
+        // Wrtie output to file
+        // estimates
+        file_write << p_x << "\t";
+        file_write << p_y << "\t";
+        file_write << v << "\t";
+        file_write << v1 << "\t";
+        file_write << v2 << "\t";
+        file_write << yaw << "\t";
+        file_write << yawd << "\t";
+
+        // measurements
+        if (meas_package.sensor_type_ == MeasurementPackage::RADAR)
+        {
+          float ro = meas_package.raw_measurements_(0);
+          float theta = meas_package.raw_measurements_(1);
+
+          file_write << ro * cos(theta)  << "\t";
+          file_write << ro * sin(theta) << "\t";
+        }
+
+        // ground truth
+        file_write << x_gt << "\t";
+        file_write << y_gt << "\t";
+        file_write << v_gt << "\t";
+        file_write << vx_gt << "\t";
+        file_write << vy_gt << "\t";
+        file_write << yaw_gt << "\t";
+        file_write << yawd_gt << "\t";
+
+        file_write << ukf.NIS_L_ << "\t";
+        file_write << ukf.NIS_R_ << std::endl;
+
+        json msgJson;
+        msgJson["estimate_x"] = p_x;
+        msgJson["estimate_y"] = p_y;
+        msgJson["rmse_x"] =  RMSE(0);
+        msgJson["rmse_y"] =  RMSE(1);
+        msgJson["rmse_vx"] = RMSE(2);
+        msgJson["rmse_vy"] = RMSE(3);
+        auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
+        // std::cout << msg << std::endl;
+        ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
 	  
         }
       } else {
