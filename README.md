@@ -62,7 +62,7 @@ Once the install for uWebSocketIO is complete, the main program can be built and
 4. make
 5. ./UnscentedKF
 
-## Other Important Dependencies
+**Other Important Dependencies**
 * cmake >= 3.5
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
 * make >= 4.1 (Linux, Mac), 3.81 (Windows)
@@ -75,6 +75,19 @@ Once the install for uWebSocketIO is complete, the main program can be built and
   * Windows: recommend using [MinGW](http://www.mingw.org/)
 
 ---
+
+**Dataset**
+
+The dataset consists of simulated lidar and radar measurements detecting a bicycle that travels around the vehicle.
+
+Each row represents a sensor measurement where the first column tells you if the measurement comes from radar (R) or lidar (L).
+
+For a row containing radar data, the columns are: 
+
+```sensor_type, rho_measured, phi_measured, rhodot_measured, timestamp, x_groundtruth, y_groundtruth, vx_groundtruth, vy_groundtruth, yaw_groundtruth, yawrate_groundtruth.```
+
+
+```For a row containing lidar data, the columns are: sensor_type, x_measured, y_measured, timestamp, x_groundtruth, y_groundtruth, vx_groundtruth, vy_groundtruth, yaw_groundtruth, yawrate_groundtruth.```
 
 
 
