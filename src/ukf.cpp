@@ -165,6 +165,7 @@ void UKF::Prediction(double delta_t) {
   Complete this function! Estimate the object's location. Modify the state
   vector, x_. Predict sigma points, the state, and the state covariance matrix.
   */
+  cout<<"Begin Prediction"<<std::endl;
   // SIGMA POINT GENERATION
   // Create augmented mean vector 
   VectorXd x_aug = VectorXd(n_aug_); // 7
@@ -288,7 +289,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 
   You'll also need to calculate the lidar NIS.
   */
-  //std::cout<<"Begin Processing Lidar.."<<std::endl;
+  std::cout<<"Begin Processing Lidar.."<<std::endl;
   // Measurement matrix
   MatrixXd R_laser_ = MatrixXd(2,2);
 
@@ -323,7 +324,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 
   NIS_L_ = y.transpose() * S.inverse() * y;
   
-  std::cout<<"NAN"<<NIS_L_<<y<<std::endl;
+  //std::cout<<"NAN"<<NIS_L_<<y<<std::endl;
 
   return;
 }
@@ -343,7 +344,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   You'll also need to calculate the radar NIS.
   */
   // Measurement dimensions, radar:(r, phi, r_dot)
-  //std::cout<<"Begin Processing Radar.."<<std::endl;
+  std::cout<<"Begin Processing Radar.."<<std::endl;
   int n_z_ = 3;
   // Matrix of sigma points in measurement space
   MatrixXd Zsig = MatrixXd(n_z_, 2*n_aug_+1); // 3x15
@@ -436,7 +437,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   NIS_R_ = z_diff.transpose() * S.inverse() * z_diff;
   
   
-  std::cout<<"NAN"<<NIS_R_<<z_diff<<std::endl;
+  //std::cout<<"NAN"<<NIS_R_<<z_diff<<std::endl;
 	
   //std::cout<<"Processed Radar.."<<std::endl;
 

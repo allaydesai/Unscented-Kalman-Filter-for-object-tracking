@@ -30,7 +30,7 @@ int main()
 {
   
   //Open file to write output
-  ofstream file_write("output.txt");
+  ofstream file_write("result.txt");
 
   if (!file_write.is_open()) {
     cout<<"Could not open file"<<endl;
@@ -146,6 +146,7 @@ int main()
     	  VectorXd RMSE = tools.CalculateRMSE(estimations, ground_truth);
 
         // Wrtie output to file
+        cout<<"Writing to file"<<std::endl;
         // estimates
         file_write << p_x << "\t";
         file_write << p_y << "\t";
@@ -164,6 +165,13 @@ int main()
           file_write << ro * cos(theta)  << "\t";
           file_write << ro * sin(theta) << "\t";
         }
+        else if(meas_package.sensor_type_ == MeasurementPackage::LASER)
+        {
+          file_write << meas_package.raw_measurements_(0) << "\t";
+          file_write << meas_package.raw_measurements_(1) << "\t";
+
+        }
+        
 
         // ground truth
         file_write << x_gt << "\t";
@@ -173,6 +181,9 @@ int main()
         file_write << vy_gt << "\t";
         file_write << yaw_gt << "\t";
         file_write << yawd_gt << "\t";
+
+        cout << "NIS_L" << ukf.NIS_L_ << std::endl;
+        cout << "NIS_R" << ukf.NIS_R_ << std::endl;
 
         file_write << ukf.NIS_L_ << "\t";
         file_write << ukf.NIS_R_ << std::endl;
