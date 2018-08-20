@@ -14,7 +14,8 @@ Overview
 [nis_laser]: ./images/nis_Laser.png "NIS Laser plot"
 [nis_radar]: ./images/nis_Radar.png "NIS Radar plot"
 
-PROJECT DESCRIPTION
+**PROJECT DESCRIPTION**
+
 The project is an implementation of an Unscented Kalman Filter(UKF) using the CTRV motion model to esitmate the state of a moving object of interest. For the purpose of the project we use Radar and Lidar data detecting a bicyclist nearby. UKF is based on a similar structure to the extended Kalman filter(EKF).
 
 The main file calls a function called ProcessMeasurement, part of the class ukf. This function processes the new Laser or Radar measurements. Once the measurements are processed they are compared against the ground truth value. Testing is achieved using Udacity's simulator which communicates over WebSockets in a JSON format.
