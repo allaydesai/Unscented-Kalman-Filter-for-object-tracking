@@ -22,6 +22,19 @@ The goals / steps of this project are the following:
 * Test algorithm against Dataset-1 in the simulator
 * Output coordinates px, py, vx, and vy RMSE should be less than or equal to the values  [.09, .10, .40, .30]
 
+**Project Files**
+
+The repository consists of the following files: 
+* ./Images/ - Supporting images
+* ./src/Eigen - Eigen Library
+* ./src/CMakeLists.txt - Code compilation
+* ./src/main.cpp - communicates with the Term 2 Simulator receiving data measurements, calls a function to run the Kalman filter, calls a function to calculate RMSE
+* ./src/UKF.cpp -  Initializes the filter, calls the predict function, calls the update function
+* ./src/tools.cpp - function to calculate RMSE
+* ./src/json.cpp - Structuring to communicate with simulator
+* ./src/measurement_package.h - Header file for measurement_package.cpp
+* ./src/tools.h - Header file for tolls.cpp
+
 C++ QUIZZES
 The quizzes including the solutions of them are included in the file ukf.cpp. They are individual functions, which don't need any special environment. The solution of the quizzes are given here and also the expected results.
 The quizzes can easily evaluated: if every value of the student solution (vectors and matrices) differs less than 0.001 from the original solution, the quizz is passed, otherwise failed.
