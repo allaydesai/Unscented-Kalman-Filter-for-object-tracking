@@ -10,9 +10,9 @@ Overview
 
 [//]: # (Image References)
 
-[video]: ./images/result.avi "Video showing tracking performance"
+[video]: ./images/result.gif "Video showing tracking performance"
 [nis_laser]: ./images/nis_Laser.png "NIS Laser plot"
-[nis_radar]: ./images/nis_Radar.png 
+[nis_radar]: ./images/nis_Radar.png "NIS Radar plot"
 
 PROJECT DESCRIPTION
 The project is an implementation of an Unscented Kalman Filter(UKF) using the CTRV motion model to esitmate the state of a moving object of interest. For the purpose of the project we use Radar and Lidar data detecting a bicyclist nearby. UKF is based on a similar structure to the extended Kalman filter(EKF).
