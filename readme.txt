@@ -35,6 +35,41 @@ The repository consists of the following files:
 * ./src/measurement_package.h - Header file for measurement_package.cpp
 * ./src/tools.h - Header file for tolls.cpp
 
+**Project Dependencies**
+
+* cmake: 3.5
+* make: 4.1 (Linux and Mac), 3.81 (Windows)
+* gcc/g++: 5.4
+* uWebSocketIO: Use install-ubuntu.sh
+
+**Project Simulator**
+
+This project involves Tracking Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
+
+Lidar measurements are red circles, radar measurements are blue circles with an arrow pointing in the direction of the observed angle, and estimation markers are green triangles.
+
+**Project Build Instructions**
+
+1. mkdir build
+2. cd build
+3. cmake ..
+4. make
+5. ./ExtendedKF
+
+---
+
+**Dataset**
+
+The dataset consists of simulated lidar and radar measurements detecting a bicycle that travels around the vehicle.
+
+Each row represents a sensor measurement where the first column tells you if the measurement comes from radar (R) or lidar (L).
+
+For a row containing radar data, the columns are: 
+'''sensor_type, rho_measured, phi_measured, rhodot_measured, timestamp, x_groundtruth, y_groundtruth, vx_groundtruth, vy_groundtruth, yaw_groundtruth, yawrate_groundtruth.'''
+
+'''For a row containing lidar data, the columns are: sensor_type, x_measured, y_measured, timestamp, x_groundtruth, y_groundtruth, vx_groundtruth, vy_groundtruth, yaw_groundtruth, yawrate_groundtruth.'''
+
+**
 C++ QUIZZES
 The quizzes including the solutions of them are included in the file ukf.cpp. They are individual functions, which don't need any special environment. The solution of the quizzes are given here and also the expected results.
 The quizzes can easily evaluated: if every value of the student solution (vectors and matrices) differs less than 0.001 from the original solution, the quizz is passed, otherwise failed.
