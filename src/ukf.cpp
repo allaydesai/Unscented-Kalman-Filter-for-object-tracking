@@ -322,7 +322,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   P_ = (I - K * H_laser_)*P_;
 
   NIS_L_ = y.transpose() * S.inverse() * y;
-
+  if (math.isnan(NIS_L_)):
+	print('NAN', NIS_L_, y)
   //std::cout<<"Processed Lidar.."<<std::endl;
 
   return;
@@ -434,7 +435,10 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   P_ = P_ - K*S*K.transpose();
 
   NIS_R_ = z_diff.transpose() * S.inverse() * z_diff;
-
+  
+  if (math.isnan(NIS_R_)):
+	print('NAN', NIS_R_, y)
+	
   //std::cout<<"Processed Radar.."<<std::endl;
 
   return;
