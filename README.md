@@ -10,10 +10,16 @@ Overview
 
 [//]: # (Image References)
 
+[video]: ./images/result.avi "Video showing tracking performance"
+[nis_laser]: ./images/nis_Laser.png "NIS Laser plot"
+[nis_radar]: ./images/nis_Radar.png 
+
 PROJECT DESCRIPTION
 The project is an implementation of an Unscented Kalman Filter(UKF) using the CTRV motion model to esitmate the state of a moving object of interest. For the purpose of the project we use Radar and Lidar data detecting a bicyclist nearby. UKF is based on a similar structure to the extended Kalman filter(EKF).
 
 The main file calls a function called ProcessMeasurement, part of the class ukf. This function processes the new Laser or Radar measurements. Once the measurements are processed they are compared against the ground truth value. Testing is achieved using Udacity's simulator which communicates over WebSockets in a JSON format.
+
+![alt text][video]
 
 **Project Goals**
 
@@ -89,5 +95,18 @@ For a row containing radar data, the columns are:
 
 ```For a row containing lidar data, the columns are: sensor_type, x_measured, y_measured, timestamp, x_groundtruth, y_groundtruth, vx_groundtruth, vy_groundtruth, yaw_groundtruth, yawrate_groundtruth.```
 
+**Results**
 
+The project goal of keeping RMSE values less than or equal to the values [.09, .10, .40, .30] was acheived. The final RMSE values for tracking using lidar and radar measurements were:
 
+| Px     | Py     | Vx     | Vy     |
+|--------|--------|--------|--------|
+| 0.0841 | 0.0926 | 0.3847 | 0.2542 |
+
+NIS - Laser Plot
+
+![alt text][nis_laser]
+
+NIS - Radar Plot
+
+![alt text][nis_radar]
